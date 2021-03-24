@@ -7,9 +7,12 @@
 using namespace std;
 std::stringstream ss;
 
-vector<unsigned int> EXPECTED_FINAL_STATE = {1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12, 0};
+typedef unsigned int GameItem;
+typedef vector<GameItem> Game;
 
-void log(vector<unsigned int> vec)
+Game FINAL_STATE = {1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12, 0};
+
+void log(Game vec)
 {
   for (unsigned int i = 0; i < vec.size(); i++)
   {
@@ -17,11 +20,11 @@ void log(vector<unsigned int> vec)
   }
 }
 
-vector<unsigned int> split(const string &str, char delim = ' ')
+Game split(const string &str, char delim = ' ')
 {
   stringstream ss(str);
   string tok;
-  vector<unsigned int> vec;
+  Game vec;
   while (getline(ss, tok, delim))
   {
     if (!tok.empty())
@@ -30,7 +33,7 @@ vector<unsigned int> split(const string &str, char delim = ' ')
   return vec;
 }
 
-unsigned int h1(vector<unsigned int> finalState, vector<unsigned int> currentState)
+unsigned int h1(Game finalState, Game currentState)
 {
   unsigned int sumOfPartsOutPlace = 0;
   for (unsigned int i = 0; i < finalState.size(); i++)
@@ -47,11 +50,22 @@ int main()
 {
   string initialState;
   getline(cin, initialState);
-  vector<unsigned int> currentState = split(initialState);
 
-  unsigned int sumH1 = h1(EXPECTED_FINAL_STATE, currentState);
+  Game currentState = split(initialState);
 
-  cout << sumH1 << endl;
+  vector<Game> A = {currentState};
+  vector<Game> T = {FINAL_STATE};
+  vector<Game> F;
+  vector<GameItem> h;
+  vector<GameItem> g;
+  vector<int> P;
+
+  for (int i = 0; i < A.size(); i++)
+  {
+    h.push_back(h1(FINAL_STATE, A[i]));
+    P.push_back(0);
+    g.push_back(0);
+  }
 
   return 0;
 }
