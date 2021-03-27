@@ -77,17 +77,14 @@ void initialize(vector<Game> &A, vector<GameItem> &h, vector<GameItem> &g, vecto
   }
 }
 
-GameItem calculateF(vector<Game> A, vector<GameItem> h, vector<GameItem> g, vector<GameItem> &F, GameItem &index)
+int getLowerWeight(vector<Game> A, vector<GameItem> h, vector<GameItem> g, GameItem &index)
 {
-  vector<GameItem> newF;
-  GameItem min = h1(FINAL_STATE, A[0]) + g[0];
+  int min = h1(FINAL_STATE, A[0]) + g[0];
   index = 0;
-  newF.push_back(min);
 
   for (int i = 1; i < A.size(); i++)
   {
     GameItem minAux = h1(FINAL_STATE, A[i]) + g[i];
-    newF.push_back(minAux);
 
     if (minAux < min)
     {
@@ -95,8 +92,6 @@ GameItem calculateF(vector<Game> A, vector<GameItem> h, vector<GameItem> g, vect
       min = minAux;
     }
   }
-
-  F = newF;
   return min;
 }
 
@@ -270,16 +265,32 @@ vector<Game> calcTSuccessor(Game node)
   return newNode;
 }
 
+bool belongsToAOrF(Game node, vector<Game> A, vector<Game> F)
+{
+  for (int i = 0; i < A.size(); i++)
+  {
+    if (node == A[i])
+      return true;
+  }
+
+  for (int i = 0; i < F.size(); i++)
+  {
+    if (node == F[i])
+      return true;
+  }
+  return false;
+}
+
 int main()
 {
   string initialState;
   getline(cin, initialState);
 
-  Game currentState = split(initialState);
+  Game S = split(initialState);
 
-  vector<Game> A = {currentState};
-  vector<Game> T = {FINAL_STATE};
-  vector<GameItem> F;
+  vector<Game> A = {S};
+  Game T = FINAL_STATE;
+  vector<Game> F;
   vector<GameItem> h;
   vector<GameItem> g;
   vector<GameItem> P;
@@ -292,22 +303,38 @@ int main()
     {
       break;
     }
+
     GameItem v;
-    calculateF(A, h, g, F, v);
-    Game removed = A[v];
+    int lowerWeight = getLowerWeight(A, h, g, v);
+
+    GameItem removedH = h[v];
+    GameItem removedG = g[v];
+    Game removedA = A[v];
     A.erase(A.begin() + v);
+    g.erase(g.begin() + v);
+    h.erase(h.begin() + v);
+    F.push_back(removedA);
 
-    cout << "Removed ";
-    logGame(removed);
+    vector<Game> tSuccessors = calcTSuccessor(removedA);
+    for (int i = 0; i < tSuccessors.size(); i++)
+    {
+      g.push_back(removedG + 1);
+
+      if (!belongsToAOrF(tSuccessors[i], A, F))
+      {
+        A.push_back(tSuccessors[i]);
+        P.push_back(v);
+        h.push_back(h1(FINAL_STATE, tSuccessors[i]));
+      }
+    }
+
+    cout << "G ";
+    logGameItemVector(g);
     cout << endl;
-    cout << "F ";
-    logGameItemVector(F);
-
-    cout << "\nALL GAME: " << endl;
-    logAllGame(calcTSuccessor(removed));
+    logAllGame(tSuccessors);
 
     //Teste
-    if (i == 1)
+    if (i == 3)
     {
       break;
     }
