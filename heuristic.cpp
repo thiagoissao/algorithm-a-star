@@ -5,7 +5,7 @@
 using namespace std;
 using namespace H;
 
-int Heuristic::h1(vector<int> final, vector<int> current)
+int H::h1(vector<int> final, vector<int> current)
 {
   int sumOfPartsOutPlace = 0;
   for (int i = 0; i < final.size(); i++)

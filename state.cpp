@@ -39,3 +39,13 @@ int State::getNode()
 {
   return this->node;
 }
+
+vector<int> State::getPositions()
+{
+  return this->positions;
+}
+
+void State::setPositions(vector<int> p)
+{
+  this->positions = p;
+}

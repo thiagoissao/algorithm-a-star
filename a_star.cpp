@@ -1,9 +1,13 @@
 #include "state.h"
+#include "utils.h"
+#include "heuristic.h"
 #include <iostream>
 #include <bits/stdc++.h>
 
 using namespace std;
+using namespace Utils;
 using namespace A;
+using namespace H;
 
 vector<int> T = {
     1, 5, 9, 13,
@@ -11,15 +15,10 @@ vector<int> T = {
     3, 7, 11, 15,
     4, 8, 12, 0};
 
-bool compare(State a1, State a2)
-{
-  return a1.getF() < a2.getF();
-}
-
 void init(vector<State> &A, State &S)
 {
   S.setG(0);
-  S.setH(1);
+  S.setH(h1(T, S.getPositions()));
   S.setNode(0);
   A.push_back(S);
 }
@@ -36,8 +35,19 @@ int main()
   make_heap(K.begin(), K.end(), compare);
 
   init(A, S);
+  push_heap(A.begin(), A.end(), compare);
+  cout << "A node: " << A.front().getNode();
 
-  cout << "A size: " << A.size();
+  for (int i = 0; i < A.size(); i++)
+  {
+    if (A[i].getPositions() == T)
+      break;
+
+    State v = A.back();
+    A.pop_back();
+
+    K = calculateK(v);
+  }
 
   return 0;
 }

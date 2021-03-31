@@ -6,10 +6,7 @@ using namespace std;
 
 namespace H
 {
-  class Heuristic
-  {
-  public:
-    int h1(vector<int> final, vector<int> current);
-  };
+  int h1(vector<int> final, vector<int> current);
 }
+
 #endif

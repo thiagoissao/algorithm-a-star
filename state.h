@@ -18,10 +18,13 @@ namespace A
     void setH(int h);
     void setG(int g);
     void setNode(int node);
+    void setPositions(vector<int> p);
+
     int getH();
     int getG();
     int getF();
     int getNode();
-  };
+    vector<int> getPositions();
+    };
 }
 #endif
