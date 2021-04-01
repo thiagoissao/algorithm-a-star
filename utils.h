@@ -9,6 +9,8 @@ using namespace std;
 namespace Utils
 {
   bool compare(State a1, State a2);
+  bool belongsToAOrF(State m, vector<State> A, vector<State> F);
   vector<State> calculateK(State v);
+  void logPositions(vector<int> positions);
 }
 #endif

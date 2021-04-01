@@ -6,6 +6,16 @@
 using namespace std;
 using namespace A;
 
+void Utils::logPositions(vector<int> positions)
+{
+  cout << "POSITIONS: ";
+  for (int i = 0; i < positions.size(); i++)
+  {
+    cout << positions[i] << " ";
+  }
+  cout << endl;
+}
+
 bool Utils::compare(State a1, State a2)
 {
   return a1.getF() < a2.getF();
@@ -35,13 +45,15 @@ vector<State> Utils::calculateK(State v)
   {
     State firstChild = v, secondChild = v;
 
-    firstChild.getPositions()[pos0] = v.getPositions()[pos0 + 1];
-    firstChild.getPositions()[pos0 + 1] = 0;
-    firstChild.setG(v.getG() + 1);
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 + 1];
+    firstPositions[pos0 + 1] = 0;
+    firstChild.setPositions(firstPositions);
 
-    secondChild.getPositions()[pos0] = v.getPositions()[pos0 + 4];
-    secondChild.getPositions()[pos0 + 4] = 0;
-    secondChild.setG(v.getG() + 1);
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 + 4];
+    secondPositions[pos0 + 4] = 0;
+    secondChild.setPositions(secondPositions);
 
     K.push_back(firstChild);
     K.push_back(secondChild);
@@ -53,13 +65,15 @@ vector<State> Utils::calculateK(State v)
   {
     State firstChild = v, secondChild = v;
 
-    firstChild.getPositions()[pos0] = v.getPositions()[pos0 - 1];
-    firstChild.getPositions()[pos0 - 1] = 0;
-    firstChild.setG(v.getG() + 1);
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 - 1];
+    firstPositions[pos0 - 1] = 0;
+    firstChild.setPositions(firstPositions);
 
-    secondChild.getPositions()[pos0] = v.getPositions()[pos0 + 4];
-    secondChild.getPositions()[pos0 + 4] = 0;
-    secondChild.setG(v.getG() + 1);
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 + 4];
+    secondPositions[pos0 + 4] = 0;
+    secondChild.setPositions(secondPositions);
 
     K.push_back(firstChild);
     K.push_back(secondChild);
@@ -71,13 +85,15 @@ vector<State> Utils::calculateK(State v)
   {
     State firstChild = v, secondChild = v;
 
-    firstChild.getPositions()[pos0] = v.getPositions()[pos0 + 1];
-    firstChild.getPositions()[pos0 + 1] = 0;
-    firstChild.setG(v.getG() + 1);
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 + 1];
+    firstPositions[pos0 + 1] = 0;
+    firstChild.setPositions(firstPositions);
 
-    secondChild.getPositions()[pos0] = v.getPositions()[pos0 - 4];
-    secondChild.getPositions()[pos0 - 4] = 0;
-    secondChild.setG(v.getG() + 1);
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 - 4];
+    secondPositions[pos0 - 4] = 0;
+    secondChild.setPositions(secondPositions);
 
     K.push_back(firstChild);
     K.push_back(secondChild);
@@ -91,17 +107,20 @@ vector<State> Utils::calculateK(State v)
 
     State firstChild = v, secondChild = v, thirdChild = v;
 
-    firstChild.getPositions()[pos0] = v.getPositions()[pos0 - 1];
-    firstChild.getPositions()[pos0 - 1] = 0;
-    firstChild.setG(v.getG() + 1);
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 + 1];
+    firstPositions[pos0 + 1] = 0;
+    firstChild.setPositions(firstPositions);
 
-    secondChild.getPositions()[pos0] = v.getPositions()[pos0 + 1];
-    secondChild.getPositions()[pos0 + 1] = 0;
-    secondChild.setG(v.getG() + 1);
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 - 1];
+    secondPositions[pos0 - 1] = 0;
+    secondChild.setPositions(secondPositions);
 
-    thirdChild.getPositions()[pos0] = v.getPositions()[pos0 + 4];
-    thirdChild.getPositions()[pos0 + 4] = 0;
-    thirdChild.setG(v.getG() + 1);
+    vector<int> thirdPositions = v.getPositions();
+    thirdPositions[pos0] = thirdPositions[pos0 + 4];
+    thirdPositions[pos0 + 4] = 0;
+    thirdChild.setPositions(thirdPositions);
 
     K.push_back(firstChild);
     K.push_back(secondChild);
@@ -114,17 +133,20 @@ vector<State> Utils::calculateK(State v)
   {
     State firstChild = v, secondChild = v, thirdChild = v;
 
-    firstChild.getPositions()[pos0] = v.getPositions()[pos0 + 1];
-    firstChild.getPositions()[pos0 + 1] = 0;
-    firstChild.setG(v.getG() + 1);
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 + 1];
+    firstPositions[pos0 + 1] = 0;
+    firstChild.setPositions(firstPositions);
 
-    secondChild.getPositions()[pos0] = v.getPositions()[pos0 - 4];
-    secondChild.getPositions()[pos0 - 4] = 0;
-    secondChild.setG(v.getG() + 1);
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 - 4];
+    secondPositions[pos0 - 4] = 0;
+    secondChild.setPositions(secondPositions);
 
-    thirdChild.getPositions()[pos0] = v.getPositions()[pos0 + 4];
-    thirdChild.getPositions()[pos0 + 4] = 0;
-    thirdChild.setG(v.getG() + 1);
+    vector<int> thirdPositions = v.getPositions();
+    thirdPositions[pos0] = thirdPositions[pos0 + 4];
+    thirdPositions[pos0 + 4] = 0;
+    thirdChild.setPositions(thirdPositions);
 
     K.push_back(firstChild);
     K.push_back(secondChild);
@@ -137,17 +159,20 @@ vector<State> Utils::calculateK(State v)
   {
     State firstChild = v, secondChild = v, thirdChild = v;
 
-    firstChild.getPositions()[pos0] = v.getPositions()[pos0 - 1];
-    firstChild.getPositions()[pos0 - 1] = 0;
-    firstChild.setG(v.getG() + 1);
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 - 1];
+    firstPositions[pos0 - 1] = 0;
+    firstChild.setPositions(firstPositions);
 
-    secondChild.getPositions()[pos0] = v.getPositions()[pos0 - 4];
-    secondChild.getPositions()[pos0 - 4] = 0;
-    secondChild.setG(v.getG() + 1);
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 - 4];
+    secondPositions[pos0 - 4] = 0;
+    secondChild.setPositions(secondPositions);
 
-    thirdChild.getPositions()[pos0] = v.getPositions()[pos0 + 4];
-    thirdChild.getPositions()[pos0 + 4] = 0;
-    thirdChild.setG(v.getG() + 1);
+    vector<int> thirdPositions = v.getPositions();
+    thirdPositions[pos0] = thirdPositions[pos0 + 4];
+    thirdPositions[pos0 + 4] = 0;
+    thirdChild.setPositions(thirdPositions);
 
     K.push_back(firstChild);
     K.push_back(secondChild);
@@ -160,17 +185,20 @@ vector<State> Utils::calculateK(State v)
   {
     State firstChild = v, secondChild = v, thirdChild = v;
 
-    firstChild.getPositions()[pos0] = v.getPositions()[pos0 + 1];
-    firstChild.getPositions()[pos0 + 1] = 0;
-    firstChild.setG(v.getG() + 1);
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 + 1];
+    firstPositions[pos0 + 1] = 0;
+    firstChild.setPositions(firstPositions);
 
-    secondChild.getPositions()[pos0] = v.getPositions()[pos0 - 1];
-    secondChild.getPositions()[pos0 - 1] = 0;
-    secondChild.setG(v.getG() + 1);
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 - 1];
+    secondPositions[pos0 - 1] = 0;
+    secondChild.setPositions(secondPositions);
 
-    thirdChild.getPositions()[pos0] = v.getPositions()[pos0 - 4];
-    thirdChild.getPositions()[pos0 - 4] = 0;
-    thirdChild.setG(v.getG() + 1);
+    vector<int> thirdPositions = v.getPositions();
+    thirdPositions[pos0] = thirdPositions[pos0 - 4];
+    thirdPositions[pos0 - 4] = 0;
+    thirdChild.setPositions(thirdPositions);
 
     K.push_back(firstChild);
     K.push_back(secondChild);
@@ -182,21 +210,25 @@ vector<State> Utils::calculateK(State v)
   //Centro
   State firstChild = v, secondChild = v, thirdChild = v, fourthChild = v;
 
-  firstChild.getPositions()[pos0] = v.getPositions()[pos0 + 1];
-  firstChild.getPositions()[pos0 + 1] = 0;
-  firstChild.setG(v.getG() + 1);
+  vector<int> firstPositions = v.getPositions();
+  firstPositions[pos0] = firstPositions[pos0 + 1];
+  firstPositions[pos0 + 1] = 0;
+  firstChild.setPositions(firstPositions);
 
-  secondChild.getPositions()[pos0] = v.getPositions()[pos0 - 1];
-  secondChild.getPositions()[pos0 - 1] = 0;
-  secondChild.setG(v.getG() + 1);
+  vector<int> secondPositions = v.getPositions();
+  secondPositions[pos0] = secondPositions[pos0 - 1];
+  secondPositions[pos0 - 1] = 0;
+  secondChild.setPositions(secondPositions);
 
-  thirdChild.getPositions()[pos0] = v.getPositions()[pos0 - 4];
-  thirdChild.getPositions()[pos0 - 4] = 0;
-  thirdChild.setG(v.getG() + 1);
+  vector<int> thirdPositions = v.getPositions();
+  thirdPositions[pos0] = thirdPositions[pos0 + 4];
+  thirdPositions[pos0 + 4] = 0;
+  thirdChild.setPositions(thirdPositions);
 
-  fourthChild.getPositions()[pos0] = v.getPositions()[pos0 + 4];
-  fourthChild.getPositions()[pos0 + 4] = 0;
-  fourthChild.setG(v.getG() + 1);
+  vector<int> fourthPositions = v.getPositions();
+  fourthPositions[pos0] = fourthPositions[pos0 - 4];
+  fourthPositions[pos0 - 4] = 0;
+  fourthChild.setPositions(fourthPositions);
 
   K.push_back(firstChild);
   K.push_back(secondChild);
@@ -204,4 +236,20 @@ vector<State> Utils::calculateK(State v)
   K.push_back(fourthChild);
   push_heap(K.begin(), K.end(), Utils::compare);
   return K;
+}
+
+bool Utils::belongsToAOrF(State m, vector<State> A, vector<State> F)
+{
+  for (int i = 0; i < A.size(); i++)
+  {
+    if (m.getPositions() == A[i].getPositions())
+      return true;
+  }
+
+  for (int i = 0; i < F.size(); i++)
+  {
+    if (m.getPositions() == F[i].getPositions())
+      return true;
+  }
+  return false;
 }
