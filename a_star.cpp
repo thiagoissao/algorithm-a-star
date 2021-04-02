@@ -62,10 +62,9 @@ int main()
 
   for (int i = 0; i < A.size(); i++)
   {
-    // logTree(A, "A");
     if (A[i].getPositions() == T)
     {
-      cout << "HERE" << endl;
+      cout << "HERE: " << A[i].getG() << endl;
       break;
     }
 
@@ -73,9 +72,6 @@ int main()
     A.pop_back();
 
     K = calculateK(v);
-
-    // logTree(A, "A");
-    // logTree(K, "K");
 
     for (int i = 0; i < K.size(); i++)
     {
@@ -88,19 +84,8 @@ int main()
         if (ml.getPositions() == m.getPositions() &&
             m.getG() < ml.getG())
         {
-          cout << "REMOVER DE A PORQUE ENCONTRAMOS UM CAMINHO MELHOR " << endl;
-          logPositions(ml.getPositions());
-          cout << "A -> f: " << ml.getH();
-          logPositions(m.getPositions());
-          cout << "K -> f: " << m.getH();
-          cout << endl;
-
-          logTree(A, "A");
-
-          A.back();
-          A.pop_back();
-
-          logTree(A, "A");
+          A.erase(A.begin() + j);
+          push_heap(A.begin(), A.end(), compare);
         }
       }
 
@@ -113,6 +98,7 @@ int main()
     }
   }
 
+  logTree(A, "A");
   State v = A.back();
   A.pop_back();
 
