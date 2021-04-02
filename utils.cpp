@@ -6,6 +6,17 @@
 using namespace std;
 using namespace A;
 
+void Utils::logTree(vector<State> tree, string treeName)
+{
+  cout << "Printing: " << treeName << endl;
+  for (int i = 0; i < tree.size(); i++)
+  {
+    cout << "Node: " << i << " ";
+    logPositions(tree[i].getPositions());
+  }
+  cout << endl;
+}
+
 void Utils::logPositions(vector<int> positions)
 {
   cout << "POSITIONS: ";
@@ -101,6 +112,26 @@ vector<State> Utils::calculateK(State v)
     return K;
   }
 
+  if (pos0 == 15)
+  {
+    State firstChild = v, secondChild = v;
+
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 - 1];
+    firstPositions[pos0 - 1] = 0;
+    firstChild.setPositions(firstPositions);
+
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 - 4];
+    secondPositions[pos0 - 4] = 0;
+    secondChild.setPositions(secondPositions);
+
+    K.push_back(firstChild);
+    K.push_back(secondChild);
+    push_heap(K.begin(), K.end(), Utils::compare);
+    return K;
+  }
+
   //Laterais sem os cantos
   if (pos0 == 1 || pos0 == 2)
   {
@@ -172,6 +203,32 @@ vector<State> Utils::calculateK(State v)
     vector<int> thirdPositions = v.getPositions();
     thirdPositions[pos0] = thirdPositions[pos0 + 4];
     thirdPositions[pos0 + 4] = 0;
+    thirdChild.setPositions(thirdPositions);
+
+    K.push_back(firstChild);
+    K.push_back(secondChild);
+    K.push_back(thirdChild);
+    push_heap(K.begin(), K.end(), Utils::compare);
+    return K;
+  }
+
+  if (pos0 == 7 || pos0 == 11)
+  {
+    State firstChild = v, secondChild = v, thirdChild = v;
+
+    vector<int> firstPositions = v.getPositions();
+    firstPositions[pos0] = firstPositions[pos0 - 1];
+    firstPositions[pos0 - 1] = 0;
+    firstChild.setPositions(firstPositions);
+
+    vector<int> secondPositions = v.getPositions();
+    secondPositions[pos0] = secondPositions[pos0 + 4];
+    secondPositions[pos0 + 4] = 0;
+    secondChild.setPositions(secondPositions);
+
+    vector<int> thirdPositions = v.getPositions();
+    thirdPositions[pos0] = thirdPositions[pos0 - 4];
+    thirdPositions[pos0 - 4] = 0;
     thirdChild.setPositions(thirdPositions);
 
     K.push_back(firstChild);
