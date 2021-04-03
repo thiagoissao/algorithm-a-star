@@ -32,6 +32,22 @@ bool Utils::compare(State a1, State a2)
   return a1.getF() < a2.getF();
 }
 
+int Utils::findMinIndex(vector<State> tree, State &state)
+{
+  State min = tree[0];
+  int index = 0;
+  for (int i = 1; i < tree.size(); i++)
+  {
+    if (tree[i].getF() < min.getF())
+    {
+      min = tree[i];
+      index = i;
+    }
+  }
+  state = min;
+  return index;
+}
+
 int getPositionZero(State node)
 {
   int pos = 0;

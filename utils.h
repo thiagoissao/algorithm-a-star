@@ -14,5 +14,6 @@ namespace Utils
   vector<State> calculateK(State v);
   void logPositions(vector<int> positions);
   void logTree(vector<State> tree, string treeName);
+  int findMinIndex(vector<State> tree, State &state);
 }
 #endif

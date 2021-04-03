@@ -3,7 +3,6 @@
 #include "heuristic.h"
 #include <iostream>
 #include <bits/stdc++.h>
-#include <vector>
 #include <string>
 
 using namespace std;
@@ -60,56 +59,45 @@ int main()
   init(A, S);
   push_heap(A.begin(), A.end(), compare);
 
-  for (int i = 0; i < A.size(); i++)
-  {
-    if (A[i].getPositions() == T)
-    {
-      cout << "HERE: " << A[i].getG() << endl;
-      break;
-    }
+  State v = A[0];
 
-    State v = A.back();
-    A.pop_back();
+  while (v.getPositions() != T)
+  {
+    int vIndex = findMinIndex(A, v);
+    A.erase(A.begin() + vIndex);
+    pop_heap(A.begin(), A.end(), compare);
+
+    F.push_back(v);
+    push_heap(F.begin(), F.end(), compare);
 
     K = calculateK(v);
 
     for (int i = 0; i < K.size(); i++)
     {
-      K[i].setG(v.getG() + 1); //calcule G
+      K[i].setG(v.getG() + 1);
       State m = K[i];
 
       for (int j = 0; j < A.size(); j++)
       {
         State ml = A[j];
+
         if (ml.getPositions() == m.getPositions() &&
             m.getG() < ml.getG())
         {
           A.erase(A.begin() + j);
-          push_heap(A.begin(), A.end(), compare);
+          pop_heap(A.begin(), A.end(), compare);
         }
       }
 
       if (!belongsToAOrF(m, A, F))
       {
+        m.setH(h1(T, m.getPositions()));
         A.push_back(m);
         push_heap(A.begin(), A.end(), compare);
-        K[i].setH(h1(T, m.getPositions()));
       }
     }
   }
 
-  logTree(A, "A");
-  State v = A.back();
-  A.pop_back();
-
-  if (v.getPositions() == T)
-  {
-    cout << "SUCESSO";
-  }
-  else
-  {
-    cout << "FRACASSO";
-  }
-
+  cout << v.getG() << endl;
   return 0;
 }
