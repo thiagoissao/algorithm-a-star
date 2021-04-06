@@ -33,7 +33,9 @@ vector<int> T = {
 void init(vector<State> &A, State &S)
 {
   S.setG(0);
-  S.setH(h1(T, S.getPositions()));
+  //S.setH(h1(T, S.getPositions()));
+  //S.setH(h2(S.getPositions()));
+  S.setH(h3(T, S.getPositions()));
   S.setNode(0);
   A.push_back(S);
 }
@@ -77,21 +79,28 @@ int main()
       K[i].setG(v.getG() + 1);
       State m = K[i];
 
+      int indexA = -1;
       for (int j = 0; j < A.size(); j++)
       {
-        State ml = A[j];
-
-        if (ml.getPositions() == m.getPositions() &&
-            m.getG() < ml.getG())
+        if (A[j].getPositions() == m.getPositions() &&
+            m.getG() < A[j].getG())
         {
-          A.erase(A.begin() + j);
-          pop_heap(A.begin(), A.end(), compare);
+          indexA = j;
         }
+      }
+
+      if (indexA != -1)
+      {
+        cout << indexA << endl;
+        A.erase(A.begin() + indexA);
+        pop_heap(A.begin(), A.end(), compare);
       }
 
       if (!belongsToAOrF(m, A, F))
       {
-        m.setH(h1(T, m.getPositions()));
+        //m.setH(h1(T, m.getPositions()));
+        //m.setH(h2(m.getPositions()));
+        m.setH(h3(T, m.getPositions()));
         A.push_back(m);
         push_heap(A.begin(), A.end(), compare);
       }
