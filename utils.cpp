@@ -326,3 +326,14 @@ bool Utils::belongsToAOrF(State m, vector<State> A, vector<State> F)
   }
   return false;
 }
+
+int Utils::getIndexIfBelongsToA(vector<State> A, vector<int> T)
+{
+  int belongsToA = -1;
+  for (int i = 0; i < A.size(); i++)
+  {
+    if (T == A[i].getPositions())
+      belongsToA = i;
+  }
+  return belongsToA;
+}

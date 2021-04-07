@@ -15,5 +15,6 @@ namespace Utils
   void logPositions(vector<int> positions);
   void logTree(vector<State> tree, string treeName);
   int findMinIndex(vector<State> tree, State &state);
+  int getIndexIfBelongsToA(vector<State> A, vector<int> T);
 }
 #endif
