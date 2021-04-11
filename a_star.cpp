@@ -24,11 +24,7 @@ vector<int> split(const string &str, char delim = ' ')
   return vec;
 }
 
-vector<int> T = {
-    1, 5, 9, 13,
-    2, 6, 10, 14,
-    3, 7, 11, 15,
-    4, 8, 12, 0};
+vector<int> T = { 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12, 0};
 
 void init(vector<State> &A, State &S)
 {
@@ -74,13 +70,13 @@ int main()
 
     K = calculateK(v);
 
-    for (int i = 0; i < K.size(); i++)
+    for (long unsigned int i = 0; i < K.size(); i++)
     {
       K[i].setG(v.getG() + 1);
       State m = K[i];
 
       int indexA = -1;
-      for (int j = 0; j < A.size(); j++)
+      for (long unsigned int j = 0; j < A.size(); j++)
       {
         if (A[j].getPositions() == m.getPositions() &&
             m.getG() < A[j].getG())
