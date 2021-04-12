@@ -50,46 +50,37 @@ int main()
 
   S.setPositions(initialPositions);
 
-  make_heap(A.begin(), A.end(), compare);
-  make_heap(F.begin(), F.end(), compare);
-  make_heap(K.begin(), K.end(), compare);
-
   init(A, S);
-  push_heap(A.begin(), A.end(), compare);
-
   State v = A[0];
+  int vIndex = 0;
+  int belongsToA = -1;
 
-  while (v.getPositions() != T)
+  while (v.getPositions() != T && belongsToA == -1)
   {
-    int vIndex = findMinIndex(A, v);
     A.erase(A.begin() + vIndex);
-    pop_heap(A.begin(), A.end(), compare);
-
     F.push_back(v);
-    push_heap(F.begin(), F.end(), compare);
 
     K = calculateK(v);
 
     for (long unsigned int i = 0; i < K.size(); i++)
     {
-      K[i].setG(v.getG() + 1);
+      K[i].setG(K[i].getG() + 1);
       State m = K[i];
 
-      int indexA = -1;
+      int indexMl = -1;
       for (long unsigned int j = 0; j < A.size(); j++)
       {
         if (A[j].getPositions() == m.getPositions() &&
             m.getG() < A[j].getG())
         {
-          indexA = j;
+          indexMl = j;
         }
       }
 
-      if (indexA != -1)
+      if (indexMl != -1)
       {
-        cout << indexA << endl;
-        A.erase(A.begin() + indexA);
-        pop_heap(A.begin(), A.end(), compare);
+        A.erase(A.begin() + indexMl);
+        vIndex = findMinIndex(A, v);
       }
 
       if (!belongsToAOrF(m, A, F))
@@ -98,11 +89,17 @@ int main()
         //m.setH(h2(m.getPositions()));
         m.setH(h3(T, m.getPositions()));
         A.push_back(m);
-        push_heap(A.begin(), A.end(), compare);
+        vIndex = findMinIndex(A, v);
       }
     }
-  }
 
-  cout << v.getG() << endl;
+    belongsToA = getIndexIfBelongsToA(A, T);
+    vIndex = findMinIndex(A, v);
+  }
+  if (belongsToA == -1)
+    cout << v.getG() << endl;
+
+  if (belongsToA != -1)
+    cout << A[belongsToA].getG() << endl;
   return 0;
 }
