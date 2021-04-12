@@ -1,0 +1,22 @@
+!!IMPORTANTE
+Alguns casos o algoritmo deu estouro de memória. 
+A submissão final para o RUN CODES não teve sucesso, porém para a maioria dos casos
+o algoritmo funciona como o esperado. Tentei encontrar o erro porém não obtive sucesso.
+A heurística que irá ser executada será a h3.
+
+Versão utilizada para compilar o código:
+
+g++ (Ubuntu 10.2.0-13ubuntu1) 10.2.0
+Copyright (C) 2020 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+Como executar o algoritmo:
+=> g++ final.cpp
+=> ./a.out
+
+Após estes dois comandos, preencher a entrada do algoritmo:
+=> 2 1 5 9 3 6 10 13 4 7 11 14 0 8 12 15
+
+SAÍDA: 9

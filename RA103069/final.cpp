@@ -1,15 +1,81 @@
-#include "state.h"
-#include "utils.h"
 #include <iostream>
 #include <bits/stdc++.h>
+#include <string>
+#include <vector>
+#include <math.h>
 
 using namespace std;
-using namespace A;
+std::stringstream ss;
 
-void Utils::logTree(vector<State> tree, string treeName)
+class State
+{
+private:
+  int h;
+  int g;
+  int node;
+  vector<int> positions;
+
+public:
+  void setH(int h)
+  {
+    this->h = h;
+  }
+
+  void setG(int g)
+  {
+    this->g = g;
+  }
+
+  void setNode(int node)
+  {
+    this->node = node;
+  }
+
+  int getH()
+  {
+    return this->h;
+  }
+
+  int getG()
+  {
+    return this->g;
+  }
+
+  int getF()
+  {
+    return this->h + this->g;
+  }
+
+  int getNode()
+  {
+    return this->node;
+  }
+
+  vector<int> getPositions()
+  {
+    return this->positions;
+  }
+
+  void setPositions(vector<int> p)
+  {
+    this->positions = p;
+  }
+};
+
+void logPositions(vector<int> positions)
+{
+  cout << "POSITIONS: ";
+  for (long unsigned int i = 0; i < positions.size(); i++)
+  {
+    cout << positions[i] << " ";
+  }
+  cout << endl;
+}
+
+void logTree(vector<State> tree, string treeName)
 {
   cout << "Printing: " << treeName << endl;
-  for (int i = 0; i < tree.size(); i++)
+  for (long unsigned int i = 0; i < tree.size(); i++)
   {
     cout << "Node: " << i << " ";
     logPositions(tree[i].getPositions());
@@ -17,26 +83,16 @@ void Utils::logTree(vector<State> tree, string treeName)
   cout << endl;
 }
 
-void Utils::logPositions(vector<int> positions)
-{
-  cout << "POSITIONS: ";
-  for (int i = 0; i < positions.size(); i++)
-  {
-    cout << positions[i] << " ";
-  }
-  cout << endl;
-}
-
-bool Utils::compare(State a1, State a2)
+bool compare(State a1, State a2)
 {
   return a1.getF() < a2.getF();
 }
 
-int Utils::findMinIndex(vector<State> tree, State &state)
+int findMinIndex(vector<State> tree, State &state)
 {
   State min = tree[0];
   int index = 0;
-  for (int i = 1; i < tree.size(); i++)
+  for (long unsigned int i = 1; i < tree.size(); i++)
   {
     if (tree[i].getF() < min.getF())
     {
@@ -51,7 +107,7 @@ int Utils::findMinIndex(vector<State> tree, State &state)
 int getPositionZero(State node)
 {
   int pos = 0;
-  for (int i = 0; i < node.getPositions().size(); i++)
+  for (long unsigned int i = 0; i < node.getPositions().size(); i++)
   {
     if (node.getPositions()[i] == 0)
     {
@@ -62,7 +118,7 @@ int getPositionZero(State node)
   return pos;
 }
 
-vector<State> Utils::calculateK(State v)
+vector<State> calculateK(State v)
 {
   vector<State> K;
   int pos0 = getPositionZero(v);
@@ -84,7 +140,7 @@ vector<State> Utils::calculateK(State v)
 
     K.push_back(firstChild);
     K.push_back(secondChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
+    push_heap(K.begin(), K.end(), compare);
     return K;
   }
 
@@ -104,7 +160,7 @@ vector<State> Utils::calculateK(State v)
 
     K.push_back(firstChild);
     K.push_back(secondChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
+    push_heap(K.begin(), K.end(), compare);
     return K;
   }
 
@@ -124,7 +180,7 @@ vector<State> Utils::calculateK(State v)
 
     K.push_back(firstChild);
     K.push_back(secondChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
+    push_heap(K.begin(), K.end(), compare);
     return K;
   }
 
@@ -144,7 +200,7 @@ vector<State> Utils::calculateK(State v)
 
     K.push_back(firstChild);
     K.push_back(secondChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
+    push_heap(K.begin(), K.end(), compare);
     return K;
   }
 
@@ -172,7 +228,7 @@ vector<State> Utils::calculateK(State v)
     K.push_back(firstChild);
     K.push_back(secondChild);
     K.push_back(thirdChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
+    push_heap(K.begin(), K.end(), compare);
     return K;
   }
 
@@ -198,33 +254,7 @@ vector<State> Utils::calculateK(State v)
     K.push_back(firstChild);
     K.push_back(secondChild);
     K.push_back(thirdChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
-    return K;
-  }
-
-  if (pos0 == 7 || pos0 == 11)
-  {
-    State firstChild = v, secondChild = v, thirdChild = v;
-
-    vector<int> firstPositions = v.getPositions();
-    firstPositions[pos0] = firstPositions[pos0 - 1];
-    firstPositions[pos0 - 1] = 0;
-    firstChild.setPositions(firstPositions);
-
-    vector<int> secondPositions = v.getPositions();
-    secondPositions[pos0] = secondPositions[pos0 - 4];
-    secondPositions[pos0 - 4] = 0;
-    secondChild.setPositions(secondPositions);
-
-    vector<int> thirdPositions = v.getPositions();
-    thirdPositions[pos0] = thirdPositions[pos0 + 4];
-    thirdPositions[pos0 + 4] = 0;
-    thirdChild.setPositions(thirdPositions);
-
-    K.push_back(firstChild);
-    K.push_back(secondChild);
-    K.push_back(thirdChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
+    push_heap(K.begin(), K.end(), compare);
     return K;
   }
 
@@ -250,7 +280,7 @@ vector<State> Utils::calculateK(State v)
     K.push_back(firstChild);
     K.push_back(secondChild);
     K.push_back(thirdChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
+    push_heap(K.begin(), K.end(), compare);
     return K;
   }
 
@@ -276,7 +306,7 @@ vector<State> Utils::calculateK(State v)
     K.push_back(firstChild);
     K.push_back(secondChild);
     K.push_back(thirdChild);
-    push_heap(K.begin(), K.end(), Utils::compare);
+    push_heap(K.begin(), K.end(), compare);
     return K;
   }
 
@@ -307,33 +337,193 @@ vector<State> Utils::calculateK(State v)
   K.push_back(secondChild);
   K.push_back(thirdChild);
   K.push_back(fourthChild);
-  push_heap(K.begin(), K.end(), Utils::compare);
+  push_heap(K.begin(), K.end(), compare);
   return K;
 }
 
-bool Utils::belongsToAOrF(State m, vector<State> A, vector<State> F)
+bool belongsToAOrF(State m, vector<State> A, vector<State> F)
 {
-  for (int i = 0; i < A.size(); i++)
+  bool belongs = false;
+  for (long unsigned int i = 0; i < A.size(); i++)
   {
     if (m.getPositions() == A[i].getPositions())
-      return true;
+      belongs = true;
   }
 
-  for (int i = 0; i < F.size(); i++)
+  if (belongs)
+  {
+    return true;
+  }
+
+  for (long unsigned int i = 0; i < F.size(); i++)
   {
     if (m.getPositions() == F[i].getPositions())
-      return true;
+      belongs = true;
   }
-  return false;
+  return belongs;
 }
 
-int Utils::getIndexIfBelongsToA(vector<State> A, vector<int> T)
+int getManhattanDistance(int num, int index)
+{
+  vector<int> originalPositions = {
+      15,
+      0, 4, 8, 12,
+      1, 5, 9, 13,
+      2, 6, 10, 14,
+      3, 7, 11};
+
+  return abs(index - originalPositions[num]);
+}
+
+int getIndexIfBelongsToA(vector<State> A, vector<int> T)
 {
   int belongsToA = -1;
-  for (int i = 0; i < A.size(); i++)
+  for (long unsigned int i = 0; i < A.size(); i++)
   {
     if (T == A[i].getPositions())
       belongsToA = i;
   }
   return belongsToA;
+}
+
+int h1(vector<int> final, vector<int> current)
+{
+  int sumOfPartsOutPlace = 0;
+  for (long unsigned int i = 0; i < final.size(); i++)
+  {
+    if (final[i] != 0 && final[i] != current[i])
+    {
+      sumOfPartsOutPlace += 1;
+    }
+  }
+  return sumOfPartsOutPlace;
+}
+
+int h2(vector<int> current)
+{
+  int sum = 0;
+  for (long unsigned int i = 1; i < current.size(); i++)
+  {
+    if (current[i] - 1 != current[i - 1] && current[i] != 0)
+    {
+      sum++;
+    }
+  }
+  return sum;
+}
+
+int h3(vector<int> final, vector<int> current)
+{
+  int sum = 0;
+  for (long unsigned int i = 0; i < current.size(); i++)
+  {
+    if (current[i] != 0 && current[i] != final[i])
+    {
+      sum += getManhattanDistance(current[i], i);
+    }
+  }
+
+  return sum;
+}
+
+int h5(vector<int> final, vector<int> current)
+{
+  int first = h1(final, current);
+  int second = h2(current);
+  int third = h1(final, current);
+
+  int maior = first;
+
+  if (second > maior)
+    maior = second;
+
+  if (third > maior)
+    maior = third;
+
+  return maior;
+}
+
+vector<int> split(const string &str, char delim = ' ')
+{
+  stringstream ss(str);
+  string tok;
+  vector<int> vec;
+  while (getline(ss, tok, delim))
+  {
+    if (!tok.empty())
+      vec.push_back(stoi(tok));
+  }
+  return vec;
+}
+
+vector<int> T = {1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12, 0};
+
+void init(vector<State> &A, State &S)
+{
+  S.setG(0);
+  // S.setH(h1(T, S.getPositions()));
+  // S.setH(h2(S.getPositions()));
+  S.setH(h3(T, S.getPositions()));
+  // S.setH(h5(T, S.getPositions()));
+  S.setNode(0);
+  A.push_back(S);
+}
+
+int main()
+{
+  vector<State> A;
+  vector<State> F;
+  vector<State> K;
+  State S;
+
+  string initialState;
+  getline(cin, initialState);
+
+  vector<int> initialPositions = split(initialState);
+
+  S.setPositions(initialPositions);
+
+  init(A, S);
+  State v = A[0];
+  int vIndex = 0;
+  int belongsToA = -1;
+
+  while (v.getPositions() != T && belongsToA == -1)
+  {
+    A.erase(A.begin() + vIndex);
+    F.push_back(v);
+
+    K = calculateK(v);
+
+    for (long unsigned int i = 0; i < K.size(); i++)
+    {
+      K[i].setG(K[i].getG() + 1);
+
+      for (long unsigned int j = 0; j < A.size(); j++)
+      {
+        if (A[j].getPositions() == K[i].getPositions() &&
+            K[i].getG() < A[j].getG())
+        {
+          A.erase(A.begin() + j);
+        }
+      }
+
+      if (!belongsToAOrF(K[i], A, F))
+      {
+        // K[i].setH(h1(T, K[i].getPositions()));
+        //K[i].setH(h2(K[i].getPositions()));
+        K[i].setH(h3(T, K[i].getPositions()));
+        A.push_back(K[i]);
+      }
+      belongsToA = getIndexIfBelongsToA(A, T);
+    }
+
+    vIndex = findMinIndex(A, v);
+  }
+  if (belongsToA == -1)
+    cout << v.getG() << endl;
+
+  if (belongsToA != -1)
+    cout << A[belongsToA].getG() << endl;
+  return 0;
 }
